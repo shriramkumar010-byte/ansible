@@ -1,0 +1,76 @@
+---
+- name: playbook_1
+  hosts: all
+  become: true
+
+  tasks:
+  - name: welcome to ansible
+    debug:
+      msg: "welcome to ansible first palybook"
+
+  - name: task of ansible
+    debug:
+      msg: "welcome to ansible second palybook"
+
+  - name: Change file
+    become: true
+    file:
+      path: /mnt/file.txt
+      state: touch
+      mode: '0666'
+
+  - name: Create a directory
+    ansible.builtin.file:
+      path: /temp/playbook_cdec
+      state: directory
+      mode: '0755'
+--------------------------
+
+---
+- name: variable_1
+  hosts: all
+  become: true
+  vars:
+    # country: "india"
+    quontinent: "Asis"
+        
+    names: [ {
+        "first": "Paul",
+        "last": "Thompson",
+        "mobile": "+1-234-31245543",
+        "ctc": "12,00,000/-",
+        "address": {
+          "city": "LasVegas",
+          "country": "USA"
+        }
+      }
+    ]
+
+  # vars_files:
+  # - file_vars.yml
+             # inside file:    key : value
+
+  vars_prompt:
+    - name: country
+      prompt: Name of my country:
+      # private: false
+
+  tasks:
+  - name: task_1
+    debug:
+      msg: "{{ names | map(attribute='address') | map(attribute='city')}}"
+
+  - name: task_2
+    vars:
+      country: "Sri Lanka"
+    debug:
+      msg: "My country {{country}} is located in {{quontinent}} quontinent."
+
+  - name: task_3
+    debug:
+      msg: "{{country}} consist of 28 different states"
+
+
+# cammand to run variables from console/terminal
+# ansible-playbook var_local.yml  -e "country=nepal"
+# host file:    <ip> "key=value"

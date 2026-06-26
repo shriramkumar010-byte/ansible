@@ -1,0 +1,30 @@
+install ansible
+
+yum install ansible -y
+
+locate to ansible configuration location
+
+cd /etc/ansible 
+
+Then create a host file in this location
+
+vim hosts
+
+in that insert your following Node server data
+SYNTAX OF HOST file
+
+[nameofyournode]
+IP_OF_YOUR_NODE   ansible_user=local_user  ansible_ssh_private_key_file=pathwayofyourprivatekey
+
+[node1]  -> this is your syntax 
+18.246.208.250 ansible_user=ec2-user ansible_ssh_private_key_file=/home/mumbaikey.pem
+
+[node2]  -> this is your syntax 
+18.246.208.100 ansible_user=ec2-user ansible_ssh_private_key_file=key
+
+finally to check connection run
+
+ansible -m ping all  - master server checks connectivity with node server.
+
+
+ansible youransibleplayname.yml  - your ansible playbookwillbeimplementedonNodeServer
